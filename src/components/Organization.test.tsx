@@ -13,7 +13,7 @@ jest.mock('../hooks/useOctokit', () => ({
     };
   },
 }));
-test('Organization render', () => {
+test('Organization render & call the request', () => {
   const { getByText } = render(<Component name={'test-org'} />);
   expect(() => getByText('error')).toThrow();
   expect(mockRequest).toHaveBeenCalledWith(`GET /orgs/{org}`, { org: 'test-org' });

@@ -8,6 +8,10 @@ import { faGithub } from '@fortawesome/free-brands-svg-icons'
 import { faUser, faBuilding } from '@fortawesome/free-solid-svg-icons';
 import { get } from 'lodash';
 
+/**
+ * Main application, will start by showing a search bar on the page.
+ * @constructor
+ */
 function App() {
   const { data, request:search, error, loading } = useOctokit();
   const [ searchTerm, setSearch ] = useState<string>('');

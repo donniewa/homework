@@ -6,6 +6,9 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import Api from './context/Api';
 
+/**
+ * Creating our main provider here.
+ */
 const octokit = new Octokit();
 ReactDOM.render(
   <React.StrictMode>

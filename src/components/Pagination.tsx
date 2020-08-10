@@ -1,9 +1,24 @@
 import PropTypes, { InferProps } from 'prop-types';
 import React from 'react';
 
+/**
+ * The pagination component will display the page links, and will provide an onChange function
+ * for the user to interact and notify the parent components.
+ * @param {number} page
+ * @param {number} total
+ * @param {number} perPage
+ * @param {function} onChange
+ * @constructor
+ */
 export function Pagination({ page, total, perPage=20, onChange }: InferProps<typeof Pagination.propTypes>) {
   const pages = Math.abs(Math.ceil(total/perPage) || 1);
 
+  /**
+   * Will generate the links we need given the number of pages.
+   * @param {number} page
+   * @param {number} pages
+   * @return {React.ReactNode[]}
+   */
   const pageLinks = (page:number, pages:number) => {
     const items = [];
     for (let i=1; i<=pages; i++) {

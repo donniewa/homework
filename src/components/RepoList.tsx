@@ -13,7 +13,14 @@ const textForOrder = new Map([
   ['open_issues_count', 'number of open issues'],
 ]);
 
-export function RepoList({ url, total, onSelect }: InferProps<typeof RepoList.propTypes>) {
+/**
+ * The Repo (Repository) list component will list out all of the repositories for the given org name
+ * @param {string} org
+ * @param {number} total
+ * @param {function} onSelect
+ * @constructor
+ */
+export function RepoList({ org, total, onSelect }: InferProps<typeof RepoList.propTypes>) {
   const { data, paginate, error, loading } = useOctokit();
   const [ orderByProp, setOrderBy ] = useState('forks_count');
   const [ order, setOrder ] = useState<boolean | 'desc' | 'asc'>('desc');
@@ -31,11 +38,11 @@ export function RepoList({ url, total, onSelect }: InferProps<typeof RepoList.pr
   };
 
   useEffect(() => {
-    if (url) {
-      paginate(`GET ${url}`);
+    if (org) {
+      paginate(`GET /orgs/{org}/repos`, { org });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [url]);
+  }, [org]);
 
   return <div className={'RepoList'} title={'repository list'}>
     <div className={'d-flex flex-row'}>
@@ -89,7 +96,7 @@ export function RepoList({ url, total, onSelect }: InferProps<typeof RepoList.pr
   </div>;
 }
 RepoList.propTypes = {
-  url: PropTypes.string.isRequired,
+  org: PropTypes.string.isRequired,
   total: PropTypes.number.isRequired,
   onSelect: PropTypes.func,
 };

@@ -6,10 +6,18 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { RepoList } from './RepoList';
 import Commits from './Commits';
 
+/**
+ * The organization component will display basic infomation about a given organization name
+ * @param {string} name
+ * @constructor
+ */
 export function Organization({ name }: InferProps<typeof Organization.propTypes>) {
   const { data:org, request, error, loading } = useOctokit();
   const [ repo, setRepo ] = useState<any>(null);
 
+  /**
+   * when the name changes, we'll have to reload the request
+   */
   useEffect(() => {
     setRepo(null);
     if (name) {
@@ -19,14 +27,14 @@ export function Organization({ name }: InferProps<typeof Organization.propTypes>
   }, [name]);
 
   return <div className={'Organization'}>
-    {loading && <div className="progress">
+    {loading ? <div className="progress">
       <div className="progress-bar progress-bar-striped progress-bar-animated"
            role="progressbar" aria-valuenow={100}
            aria-valuemin={0} aria-valuemax={100}
            style={{ width: '100%' }} />
-    </div>}
-    {error && <div>There was an error loading the organization. Please try again.</div>}
-    {org && <div className="media">
+    </div> : null}
+    {error ? <div>There was an error loading the organization. Please try again.</div> : null}
+    {org ? <div className="media">
       {org.avatar_url && <img src={org.avatar_url} className="mr-3" alt={`${org.login}- avatar`} style={{maxWidth: 150}} />}
       {!org.avatar_url && org.gravatar_id && <img src={org.gravatar_id} className="mr-3" alt={`${org.login}- gravatar`} style={{maxWidth: 150}} />}
       <div className="media-body">
@@ -38,7 +46,7 @@ export function Organization({ name }: InferProps<typeof Organization.propTypes>
 
         {/* Repository Listing */}
         {org?.public_repos > 0 && org.repos_url && !repo
-          ? <RepoList url={org.repos_url} total={org?.public_repos || 0} onSelect={(r) => setRepo(r)} />
+          ? <RepoList org={name} total={org?.public_repos || 0} onSelect={(r) => setRepo(r)} />
           : null}
         {org?.public_repos <= 0 ? <h5 className={'mt-3'}>No Repositories</h5> : null}
 
@@ -48,11 +56,12 @@ export function Organization({ name }: InferProps<typeof Organization.propTypes>
             <FontAwesomeIcon icon={faArrowAltCircleLeft} className={'mr-2'} /> Back to listing
           </button>
           <h5>{repo.name}</h5>
+
           {/* List the commits */}
           <Commits owner={name} repo={repo?.name} />
         </div> : null}
       </div>
-    </div>}
+    </div> : null}
   </div>;
 }
 Organization.propTypes = {

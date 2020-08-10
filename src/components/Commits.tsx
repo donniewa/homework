@@ -5,6 +5,14 @@ import useOctokit from '../hooks/useOctokit';
 import { groupBy, keys } from 'lodash';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+/**
+ * The commits will list out each github commit from the chosen owner and repo.
+ * When the owner and repo are set, the octokit api will be automatically loaded
+ * and display the data.
+ * @param {string} owner
+ * @param {string} repo
+ * @constructor
+ */
 export function Commits({ owner, repo }: InferProps<typeof Commits.propTypes>) {
   const { data, request, error, loading } = useOctokit();
   const [ page, setPage ] = useState(1);
@@ -15,8 +23,16 @@ export function Commits({ owner, repo }: InferProps<typeof Commits.propTypes>) {
       return false;
     }
   };
+
+  /**
+   * Grouping by the first part of the date only,
+   * @type {Dictionary<any[]>}
+   */
   const groups = data && groupBy(data, item => item?.commit?.author?.date?.substr(0,10));
 
+  /**
+   * When the Owner, repo, or page change we'll re-load the request.
+   */
   useEffect(() => {
     if (owner && repo) {
       request(`GET /repos/{owner}/{repo}/commits`, {
@@ -28,12 +44,12 @@ export function Commits({ owner, repo }: InferProps<typeof Commits.propTypes>) {
   }, [owner, repo, page]);
 
   return <div className={'Commits'}>
-    {loading && <div className="progress">
+    {loading ? <div className="progress">
       <div className="progress-bar progress-bar-striped progress-bar-animated"
            role="progressbar" aria-valuenow={100}
            aria-valuemin={0} aria-valuemax={100}
            style={{ width: '100%' }} />
-    </div>}
+    </div> : null}
     {error ? <div>There was an error loading the Commits. Please try again.</div> : null}
     {!error && groups && keys(groups).map(key => <div className={'media my-2'} key={key}>
       <FontAwesomeIcon icon={faCircleNotch} className={'mr-3 mt-1'} />

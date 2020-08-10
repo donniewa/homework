@@ -13,7 +13,7 @@ jest.mock('../hooks/useOctokit', () => ({
     };
   },
 }));
-test('Commits render', () => {
+test('Commits render & call the request', () => {
   const { getByText } = render(<Component owner={'test'} repo={'test-repo'} />);
   expect(() => getByText('error')).toThrow();
   expect(mockRequest).toHaveBeenCalledWith(

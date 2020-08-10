@@ -10,7 +10,7 @@ jest.mock('@octokit/rest', () => {
   };
 }, {virtual: true});
 
-describe('Use Fetch Hook', () => {
+describe('Use Octokit Hook', () => {
   beforeAll(() => {
     jest.resetModules();
   });

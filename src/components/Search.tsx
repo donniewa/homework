@@ -2,10 +2,23 @@ import PropTypes, { InferProps } from 'prop-types';
 import React from 'react';
 import { debounce, get } from 'lodash';
 
-export function Search(
-  {
-    results, onChange, onSelect, onFocus, label, placeholder, loading, bindLabel, children, show
-  }: InferProps<typeof Search.propTypes>) {
+/**
+ * This Search Field will display the results given to it, or you may control the dropdown information
+ * on your own.
+ * @param {any[]} results
+ * @param {function} onChange
+ * @param {function} onSelect
+ * @param {function} onFocus
+ * @param {string} label
+ * @param {string} placeholder
+ * @param {boolean} loading
+ * @param {string} bindLabel
+ * @param {React.ReactNode[]} children
+ * @param {boolean} show
+ * @constructor
+ */
+export function Search({results, onChange, onSelect, onFocus, label, placeholder, loading, bindLabel, children, show}
+: InferProps<typeof Search.propTypes>) {
   const change = debounce((value) => onChange && onChange(value), 500);
   const select = (value:any) => {
     onSelect && onSelect(value)

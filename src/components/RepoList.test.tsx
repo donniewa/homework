@@ -13,8 +13,8 @@ jest.mock('../hooks/useOctokit', () => ({
     };
   },
 }));
-test('RepoList render', () => {
-  const { getByText } = render(<Component url={'test-org'} total={10} />);
+test('RepoList render & Paginate call', () => {
+  const { getByText } = render(<Component org={'test-org'} total={10} />);
   expect(() => getByText('error')).toThrow();
-  expect(mockRequest).toHaveBeenCalledWith(`GET test-org`);
+  expect(mockRequest).toHaveBeenCalledWith(`GET /orgs/{org}/repos`, { org: 'test-org' });
 });
