@@ -1,12 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Octokit } from '@octokit/rest';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import Api from './context/Api';
 
+const octokit = new Octokit();
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Api.Provider value={octokit}>
+      <App />
+    </Api.Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
