@@ -49,7 +49,7 @@ export function RepoList({ org, total, onSelect }: InferProps<typeof RepoList.pr
       <div className={'flex-grow-1'}>
         <h5 className={'mt-3'}>Repositories</h5>
         {textForOrder.get(orderByProp) ? <small className={'m-2'}>ordered by {textForOrder.get(orderByProp)}</small> : null}
-        <small className={'m-2'}>page {page} of {Math.ceil(total / itemsPerPage) || 1}</small>
+        <small className={'m-2 d-inline-flex'}>page {page} of {Math.ceil(total / itemsPerPage) || 1}</small>
       </div>
       <div className="dropdown align-self-baseline">
         <button className="btn btn-secondary btn-sm dropdown-toggle" type="button" id="sortBy"
@@ -57,7 +57,7 @@ export function RepoList({ org, total, onSelect }: InferProps<typeof RepoList.pr
                 onClick={() => setShow(true)}>
           Sort By
         </button>
-        <div className={`dropdown-menu ${show ? 'show' : ''}`} aria-labelledby="sortBy">
+        <div className={`dropdown-menu dropdown-menu-right ${show ? 'show' : ''}`} aria-labelledby="sortBy">
           <button className="dropdown-item" onClick={() => setOrderHandler('forks_count')}>Number of Forks</button>
           <button className="dropdown-item" onClick={() => setOrderHandler('stargazers_count')}>Number of Stars</button>
           <button className="dropdown-item" onClick={() => setOrderHandler('watchers_count')}>Number of Watchers</button>

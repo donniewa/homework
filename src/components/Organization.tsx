@@ -34,33 +34,34 @@ export function Organization({ name }: InferProps<typeof Organization.propTypes>
            style={{ width: '100%' }} />
     </div> : null}
     {error ? <div>There was an error loading the organization. Please try again.</div> : null}
-    {org ? <div className="media">
-      {org.avatar_url && <img src={org.avatar_url} className="mr-3" alt={`${org.login}- avatar`} style={{maxWidth: 150}} />}
-      {!org.avatar_url && org.gravatar_id && <img src={org.gravatar_id} className="mr-3" alt={`${org.login}- gravatar`} style={{maxWidth: 150}} />}
-      <div className="media-body">
-        <h5 className="mt-0">{org?.name}</h5>
-        {org?.description}
-        {org?.location ? <div>
-          <small><FontAwesomeIcon icon={faMapMarkerAlt} className={'mr-2'} /> {org.location}</small>
-        </div> : null}
-
-        {/* Repository Listing */}
-        {org?.public_repos > 0 && org.repos_url && !repo
-          ? <RepoList org={name} total={org?.public_repos || 0} onSelect={(r) => setRepo(r)} />
-          : null}
-        {org?.public_repos <= 0 ? <h5 className={'mt-3'}>No Repositories</h5> : null}
-
-        {/* The Repo is chosen */}
-        {repo ? <div>
-          <button className={'btn btn-sm btn-outline-primary m-4'} onClick={() => setRepo(null)}>
-            <FontAwesomeIcon icon={faArrowAltCircleLeft} className={'mr-2'} /> Back to listing
-          </button>
-          <h5>{repo.name}</h5>
-
-          {/* List the commits */}
-          <Commits owner={name} repo={repo?.name} />
-        </div> : null}
+    {org ? <div>
+      <div className="media">
+        {org.avatar_url && <img src={org.avatar_url} className="mr-3" alt={`${org.login}- avatar`} style={{maxWidth: 100}} />}
+        {!org.avatar_url && org.gravatar_id && <img src={org.gravatar_id} className="mr-3" alt={`${org.login}- gravatar`} style={{maxWidth: 100}} />}
+        <div className="media-body">
+          <h5 className="mt-0">{org?.name}</h5>
+          {org?.description}
+          {org?.location ? <div>
+            <small><FontAwesomeIcon icon={faMapMarkerAlt} className={'mr-2'} /> {org.location}</small>
+          </div> : null}
+        </div>
       </div>
+      {/* Repository Listing */}
+      {org?.public_repos > 0 && org.repos_url && !repo
+        ? <RepoList org={name} total={org?.public_repos || 0} onSelect={(r) => setRepo(r)} />
+        : null}
+      {org?.public_repos <= 0 ? <h5 className={'mt-3'}>No Repositories</h5> : null}
+
+      {/* The Repo is chosen */}
+      {repo ? <div>
+        <button className={'btn btn-sm btn-outline-primary m-4'} onClick={() => setRepo(null)}>
+          <FontAwesomeIcon icon={faArrowAltCircleLeft} className={'mr-2'} /> Back to listing
+        </button>
+        <h5>{repo.name}</h5>
+
+        {/* List the commits */}
+        <Commits owner={name} repo={repo?.name} />
+      </div> : null}
     </div> : null}
   </div>;
 }
