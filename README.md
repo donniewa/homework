@@ -1,6 +1,6 @@
 ## Available Scripts
 
-First clone the project to new directory in your workspace.
+First clone the project to a new directory in your workspace.
 `git clone git@github.com:donniewa/homework.git`
 
 In the project directory, you can run:
